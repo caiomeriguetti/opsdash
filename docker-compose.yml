@@ -1,0 +1,32 @@
+version: '2' # Versão 2 do Docker Compose
+
+services:
+
+  applications:
+      image: tianon/true
+      volumes:
+#        - ../:/var/www
+         - ../workspace/:/var/www/workspace
+
+## Controller Container #######################################################
+  controller:
+      build:
+        context: ./controller
+
+      ports:
+        - "2222:22" # Edit this line
+        
+      volumes_from:
+        - applications
+        
+      tty: true
+
+## Target Container ###########################################################
+  target:
+      build:
+        context: ./target
+        
+      volumes_from:
+        - applications
+
+      tty: true
